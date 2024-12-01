@@ -7,8 +7,7 @@ import { Role } from './entities/role.entity';
 import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { Permiso_Accion } from './entities/permiso_accion.entity';
-import { RoleArgs } from './dto/role-args.input';
-import { ResponsePropioGQl } from '../../common';
+import { PaginationArgs, ResponsePropioGQl } from '../../common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { ROLES } from '../../config';
@@ -33,7 +32,7 @@ export class RoleResolver {
   @Query(() => [Role], { name: 'allRole', description: 'Ver todos los roles' })
   public async findAll(
     @CurrentUser([ROLES.ROLE_VIEW]) user: User,
-    @Args() paginationArgs: RoleArgs,
+    @Args() paginationArgs: PaginationArgs,
   ): Promise<Role[]> {
     return this.roleService.findAll(paginationArgs, user);
   }

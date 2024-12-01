@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
   Min,
   MinLength,
 } from 'class-validator';
@@ -33,8 +34,8 @@ export class CreateEmpresaInput {
   @Min(0)
   codigo: number;
 
-  @Field(() => Int)
-  @IsNumber()
-  @Min(0)
-  rnc: number;
+  @Field(() => String)
+  @IsString()
+  @MinLength(3)
+  rnc: string;
 }

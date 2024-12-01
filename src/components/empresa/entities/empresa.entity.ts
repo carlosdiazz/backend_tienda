@@ -31,7 +31,7 @@ export class Empresa {
   @Field(() => Int)
   codigo: number;
 
-  @Column({ type: 'int', unique: true })
-  @Field(() => Int)
-  rnc: number;
+  @Column({ type: 'varchar', unique: true })
+  @Field(() => String)
+  rnc: string;
 }

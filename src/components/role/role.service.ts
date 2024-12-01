@@ -11,10 +11,9 @@ import { CreateRoleInput } from './dto/create-role.input';
 import { UpdateRoleInput } from './dto/update-role.input';
 import { Role } from './entities/role.entity';
 import { Permiso_Accion } from './entities/permiso_accion.entity';
-import { RoleArgs } from './dto/role-args.input';
 import { MESSAGE } from '../../config';
 import { User } from '../users';
-import { ResponsePropioGQl } from '../../common';
+import { PaginationArgs, ResponsePropioGQl } from '../../common';
 
 @Injectable()
 export class RoleService {
@@ -49,7 +48,10 @@ export class RoleService {
     }
   }
 
-  public async findAll(paginationArgs: RoleArgs, user: User): Promise<Role[]> {
+  public async findAll(
+    paginationArgs: PaginationArgs,
+    user: User,
+  ): Promise<Role[]> {
     const { limit, offset, activo } = paginationArgs;
     const new_user: null | number = user.root === true ? null : user.id;
     return await this.roleRepository.find({
