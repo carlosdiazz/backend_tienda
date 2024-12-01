@@ -13,7 +13,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from '../database/database.module';
 
-import { RoleModule, UsersModule } from './../components';
+import {
+  EmpresaModule,
+  ProductosModule,
+  RoleModule,
+  UsersModule,
+} from './../components';
 import { AppInit } from './app-init.service';
 import { AuthModule } from '../auth';
 import { configVariable, validationENV } from '../config';
@@ -52,6 +57,8 @@ const baseImports = [
   //Compoenntes de User
   UsersModule,
   RoleModule,
+  ProductosModule,
+  EmpresaModule,
 ];
 
 @Module({

@@ -21,18 +21,6 @@ export class Permiso_Accion {
   @Column({ type: 'varchar', unique: true })
   action: string;
 
-  @Field(() => String)
-  @Column({ type: 'varchar' })
-  method: string;
-
-  @Field(() => String)
-  @Column({ type: 'varchar' })
-  entity: string;
-
-  @Field(() => Boolean)
-  @Column({ type: 'boolean', default: true })
-  activo?: boolean;
-
   @ManyToMany(() => Role, (role) => role.permiso_accion, { lazy: true })
   @JoinTable({
     name: 'rol_pe_ac',

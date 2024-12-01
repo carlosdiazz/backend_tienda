@@ -27,8 +27,6 @@ export class AppInit implements OnModuleInit {
     this.logger.debug('Creando todos los permiso accion');
     const permiso_accion = Object.values(ROLES).map((name) => ({
       action: name,
-      method: '', //QUITE METODO
-      entity: '', //QUITE ENTIDAD
     }));
 
     for (const permiso of permiso_accion) {
@@ -38,8 +36,6 @@ export class AppInit implements OnModuleInit {
       if (!verificar) {
         const newPermiso = this.permisoAccionRepository.create({
           action: permiso.action,
-          method: permiso.method,
-          entity: permiso.entity,
         });
         await this.permisoAccionRepository.save(newPermiso);
       }
@@ -111,15 +107,13 @@ export class AppInit implements OnModuleInit {
 
   //Consultar si existte un admin
   async onModuleInit() {
-    this.logger.debug('INICIO DEL MODULO SEEDS - APP_INIT');
-
-    //? Creo todos los permisos accion
-    await this.crear_todos_los_permisos_accion();
-    //? Creo el rol ROOT
-    const id_root = await this.crear_rol_ROOT_devulve_su_id();
-
-    //? Este crea el suuario en caso de ser necesario
-    await this.crear_User_ROOT([id_root]);
-    this.logger.debug('FIN DEL MODULO SEEDS - APP_INIT');
+    //this.logger.debug('INICIO DEL MODULO SEEDS - APP_INIT');
+    ////? Creo todos los permisos accion
+    //await this.crear_todos_los_permisos_accion();
+    ////? Creo el rol ROOT
+    //const id_root = await this.crear_rol_ROOT_devulve_su_id();
+    ////? Este crea el suuario en caso de ser necesario
+    //await this.crear_User_ROOT([id_root]);
+    //this.logger.debug('FIN DEL MODULO SEEDS - APP_INIT');
   }
 }
