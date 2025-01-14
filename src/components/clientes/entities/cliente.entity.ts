@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { VALID_ENTITY } from '../../../config';
+import { Factura } from '../../../components/factura/entities/factura.entity';
 
 @Entity({ name: VALID_ENTITY.CLIENTE })
 @ObjectType()
@@ -33,4 +34,12 @@ export class Cliente {
   @Column({ type: 'varchar' })
   @Field(() => String)
   telefono: string;
+
+  //Relaciones
+  @Field(() => [Factura], { nullable: true })
+  @OneToMany(() => Factura, (factura) => factura.cliente, {
+    lazy: true,
+    nullable: true,
+  })
+  facturas?: Factura[];
 }

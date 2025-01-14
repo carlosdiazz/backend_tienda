@@ -5,6 +5,7 @@ export enum VALID_ENTITY {
   PRODUCTO = 'producto',
   PROVEEDOR = 'proveedor',
   CLIENTE = 'cliente',
+  FACTURA = 'factura',
 }
 
 export class ROLES {
@@ -43,4 +44,10 @@ export class ROLES {
   static CLIENTE_UPDATE = 'CLIENTE_UPDATE';
   static CLIENTE_VIEW = 'CLIENTE_VIEW';
   static CLIENTE_DELETE = 'CLIENTE_DELETE';
+
+  //?Permiso de Factura
+  static FACTURA_CREATE = 'FACTURA_CREATE';
+  static FACTURA_UPDATE = 'FACTURA_UPDATE';
+  static FACTURA_VIEW = 'FACTURA_VIEW';
+  static FACTURA_DELETE = 'FACTURA_DELETE';
 }
