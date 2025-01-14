@@ -1,4 +1,5 @@
 import {
+  BadGatewayException,
   BadRequestException,
   Injectable,
   NotFoundException,
@@ -7,12 +8,16 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateFacturaInput } from './dto/create-factura.input';
+import {
+  CreateFacturaInput,
+  ProductoCantidadInput,
+} from './dto/create-factura.input';
 import { UpdateFacturaInput } from './dto/update-factura.input';
 import { Factura } from './entities/factura.entity';
 import { PaginationArgs, ResponsePropioGQl } from '../../common';
 import { MESSAGE } from '../../config';
-import { ClientesService } from '../clientes';
+import { Cliente, ClientesService } from '../clientes';
+import { ProductosService } from '../productos';
 
 @Injectable()
 export class FacturaService {
@@ -20,6 +25,7 @@ export class FacturaService {
     @InjectRepository(Factura)
     private readonly repository: Repository<Factura>,
     private readonly clienteService: ClientesService,
+    private readonly productosService: ProductosService,
   ) {}
 
   //TODO
@@ -28,33 +34,87 @@ export class FacturaService {
   }
 
   //TODO
-  private calcularFaltante(): number {
-    return 10;
+  private calcularFaltante(
+    cliente: Cliente,
+    is_credito: boolean,
+    total_pagado: number,
+    total: number,
+  ): number {
+    if (total_pagado > total) {
+      throw new BadGatewayException(
+        `El monto Pagado => ${total_pagado} no puede ser mayor al Total => ${total}`,
+      );
+    }
+    if (cliente.is_generico && total_pagado !== total) {
+      throw new BadGatewayException(
+        `El monto Pagado => ${total_pagado} debe ser igual al Total => ${total}`,
+      );
+    }
+
+    if (is_credito) {
+      return total - total_pagado;
+    }
+
+    if (total !== total_pagado) {
+      throw new BadGatewayException(
+        `El monto Pagado => ${total_pagado} debe ser igual al Total => ${total}`,
+      );
+    }
   }
 
   //TODO
-  private calcularTotal(): number {
-    return 100;
+  private async calcularTotal(
+    productos: ProductoCantidadInput[],
+  ): Promise<number> {
+    let total = 0;
+    for (const product of productos) {
+      const { price } = await this.productosService.findOne(
+        product.id_producto,
+      );
+      const total_producto = price * product.cantidad;
+      total = total + total_producto;
+    }
+    return total;
+  }
+
+  private async revisarProductos(productos: ProductoCantidadInput[]) {
+    //Verifico que se manden Productos
+    if (productos.length === 0) {
+      throw new BadGatewayException('No mandaste Productos');
+    }
+
+    for (const product of productos) {
+      await this.productosService.findOne(product.id_producto);
+    }
   }
 
   public async create(
     createFacturaInput: CreateFacturaInput,
   ): Promise<Factura> {
-    const { id_cliente, activo, is_credito, total_pagado } = createFacturaInput;
+    const { id_cliente, activo, is_credito, total_pagado, productos } =
+      createFacturaInput;
 
-    //Verifico que el cliente exista
-    await this.clienteService.findOne(id_cliente);
+    //Verificar Clientes
+    const cliente = await this.clienteService.findOne(id_cliente);
+
+    //Verificar IDs Productos
+    await this.revisarProductos(productos);
+
+    //Genero el codiog de factura
+    const codigo_factura = this.generarCodigofactura();
+
+    //Calcular Total
+    const total = await this.calcularTotal(productos);
+
+    //Calcular faltante
+    const faltante = this.calcularFaltante(
+      cliente,
+      is_credito,
+      total_pagado,
+      total,
+    );
 
     try {
-      //Genero el codiog de factura
-      const codigo_factura = this.generarCodigofactura();
-
-      //Calcular faltante
-      const faltante = this.calcularFaltante();
-
-      //Calcualr Total
-      const total = this.calcularTotal();
-
       const new_entity = this.repository.create({
         activo,
         is_credito,

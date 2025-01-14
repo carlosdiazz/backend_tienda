@@ -6,6 +6,7 @@ export enum VALID_ENTITY {
   PROVEEDOR = 'proveedor',
   CLIENTE = 'cliente',
   FACTURA = 'factura',
+  FACTURA_DETALLE = 'fact_detalle',
 }
 
 export class ROLES {

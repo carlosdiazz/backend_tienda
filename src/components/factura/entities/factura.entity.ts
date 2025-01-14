@@ -4,11 +4,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { VALID_ENTITY } from '../../../config';
 import { Cliente } from '../../../components/clientes/entities/cliente.entity';
+import { FacturaDetalle } from '../../../components/factura_detalle/entities/factura_detalle.entity';
 
 @Entity({ name: VALID_ENTITY.FACTURA })
 @ObjectType()
@@ -49,4 +51,12 @@ export class Factura {
   })
   @JoinColumn({ name: 'id_cliente' })
   cliente?: Cliente;
+
+  @Field(() => [FacturaDetalle])
+  @OneToMany(
+    () => FacturaDetalle,
+    (facturaDetalle) => facturaDetalle.producto,
+    { lazy: true },
+  )
+  factura_detalle: FacturaDetalle[];
 }

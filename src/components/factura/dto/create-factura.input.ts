@@ -1,5 +1,25 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsBoolean, IsNumber, IsOptional, Min } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  Min,
+  ValidateNested,
+} from 'class-validator';
+
+@InputType()
+export class ProductoCantidadInput {
+  @Field(() => Int)
+  @IsNumber()
+  @Min(1)
+  id_producto: number;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(1)
+  cantidad: number;
+}
 
 @InputType()
 export class CreateFacturaInput {
@@ -22,4 +42,9 @@ export class CreateFacturaInput {
   @IsNumber()
   @Min(0)
   total_pagado: number;
+
+  @Field(() => [ProductoCantidadInput])
+  @ValidateNested({ each: true }) // Valida cada elemento del arreglo
+  @Type(() => ProductoCantidadInput)
+  productos: ProductoCantidadInput[];
 }

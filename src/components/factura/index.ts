@@ -1,4 +1,7 @@
-export { CreateFacturaInput } from './dto/create-factura.input';
+export {
+  CreateFacturaInput,
+  ProductoCantidadInput,
+} from './dto/create-factura.input';
 export { UpdateFacturaInput } from './dto/update-factura.input';
 
 export { Factura } from './entities/factura.entity';
