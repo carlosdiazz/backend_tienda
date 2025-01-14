@@ -4,6 +4,7 @@ export enum VALID_ENTITY {
   EMPRESA = 'empresa',
   PRODUCTO = 'producto',
   PROVEEDOR = 'proveedor',
+  CLIENTE = 'cliente',
 }
 
 export class ROLES {
@@ -36,4 +37,10 @@ export class ROLES {
   static PROVEEDOR_UPDATE = 'PROVEEDOR_UPDATE';
   static PROVEEDOR_VIEW = 'PROVEEDOR_VIEW';
   static PROVEEDOR_DELETE = 'PROVEEDOR_DELETE';
+
+  //?Permiso de Cliente
+  static CLIENTE_CREATE = 'CLIENTE_CREATE';
+  static CLIENTE_UPDATE = 'CLIENTE_UPDATE';
+  static CLIENTE_VIEW = 'CLIENTE_VIEW';
+  static CLIENTE_DELETE = 'CLIENTE_DELETE';
 }
