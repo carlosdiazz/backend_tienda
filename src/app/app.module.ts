@@ -18,6 +18,7 @@ import {
   ProductosModule,
   RoleModule,
   UsersModule,
+  ProveedorModule,
 } from './../components';
 import { AppInit } from './app-init.service';
 import { AuthModule } from '../auth';
@@ -59,6 +60,7 @@ const baseImports = [
   RoleModule,
   ProductosModule,
   EmpresaModule,
+  ProveedorModule,
 ];
 
 @Module({
