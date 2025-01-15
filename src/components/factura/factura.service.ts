@@ -18,6 +18,10 @@ import { PaginationArgs, ResponsePropioGQl } from '../../common';
 import { MESSAGE } from '../../config';
 import { Cliente, ClientesService } from '../clientes';
 import { ProductosService } from '../productos';
+import {
+  CreateFacturaDetalleInput,
+  FacturaDetalleService,
+} from '../factura_detalle';
 
 @Injectable()
 export class FacturaService {
@@ -26,6 +30,7 @@ export class FacturaService {
     private readonly repository: Repository<Factura>,
     private readonly clienteService: ClientesService,
     private readonly productosService: ProductosService,
+    private readonly facturaDetalle: FacturaDetalleService,
   ) {}
 
   //TODO
@@ -55,11 +60,13 @@ export class FacturaService {
       return total - total_pagado;
     }
 
-    if (total !== total_pagado) {
-      throw new BadGatewayException(
-        `El monto Pagado => ${total_pagado} debe ser igual al Total => ${total}`,
-      );
+    if (total === total_pagado) {
+      return 0;
     }
+
+    throw new BadGatewayException(
+      `El monto Pagado => ${total_pagado} debe ser igual al Total => ${total}`,
+    );
   }
 
   //TODO
@@ -84,11 +91,35 @@ export class FacturaService {
     }
 
     for (const product of productos) {
-      await this.productosService.findOne(product.id_producto);
+      const { stock } = await this.productosService.findOne(
+        product.id_producto,
+      );
+      if (stock < product.cantidad) {
+        throw new BadGatewayException(`No hay Stock Suficiente `);
+      }
     }
   }
 
   public async create(
+    createFacturaInput: CreateFacturaInput,
+  ): Promise<Factura> {
+    const factura = await this.pre_create(createFacturaInput);
+
+    const productos: CreateFacturaDetalleInput[] =
+      createFacturaInput.productos.map((i) => {
+        return {
+          cantidad: i.cantidad,
+          id_factura: factura.id,
+          id_producto: i.id_producto,
+        };
+      });
+
+    await this.facturaDetalle.createMany(productos);
+
+    return await this.findOne(factura.id);
+  }
+
+  private async pre_create(
     createFacturaInput: CreateFacturaInput,
   ): Promise<Factura> {
     const { id_cliente, activo, is_credito, total_pagado, productos } =
@@ -97,10 +128,10 @@ export class FacturaService {
     //Verificar Clientes
     const cliente = await this.clienteService.findOne(id_cliente);
 
-    //Verificar IDs Productos
+    //Verificar IDs Productos y Stock
     await this.revisarProductos(productos);
 
-    //Genero el codiog de factura
+    //Genero el codigo de factura
     const codigo_factura = this.generarCodigofactura();
 
     //Calcular Total
@@ -149,7 +180,12 @@ export class FacturaService {
   }
 
   public async findOne(id: number): Promise<Factura> {
-    const entity = await this.repository.findOneBy({ id });
+    const entity = await this.repository.findOne({
+      where: { id },
+      select: {
+        factura_detalle: true,
+      },
+    });
     if (!entity) {
       throw new NotFoundException(
         `${MESSAGE.COMUN_ESTE_ID_NO_EXISTE} => Factura`,

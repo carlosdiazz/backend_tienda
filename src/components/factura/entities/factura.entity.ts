@@ -53,10 +53,8 @@ export class Factura {
   cliente?: Cliente;
 
   @Field(() => [FacturaDetalle])
-  @OneToMany(
-    () => FacturaDetalle,
-    (facturaDetalle) => facturaDetalle.producto,
-    { lazy: true },
-  )
+  @OneToMany(() => FacturaDetalle, (facturaDetalle) => facturaDetalle.factura, {
+    lazy: true,
+  })
   factura_detalle: FacturaDetalle[];
 }

@@ -7,6 +7,7 @@ export enum VALID_ENTITY {
   CLIENTE = 'cliente',
   FACTURA = 'factura',
   FACTURA_DETALLE = 'fact_detalle',
+  COMPROBANTE = 'comprobante',
 }
 
 export class ROLES {
@@ -51,4 +52,10 @@ export class ROLES {
   static FACTURA_UPDATE = 'FACTURA_UPDATE';
   static FACTURA_VIEW = 'FACTURA_VIEW';
   static FACTURA_DELETE = 'FACTURA_DELETE';
+
+  //?Permiso de Comprobante
+  static COMPROBANTE_CREATE = 'COMPROBANTE_CREATE';
+  static COMPROBANTE_UPDATE = 'COMPROBANTE_UPDATE';
+  static COMPROBANTE_VIEW = 'COMPROBANTE_VIEW';
+  static COMPROBANTE_DELETE = 'COMPROBANTE_DELETE';
 }
