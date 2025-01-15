@@ -1,7 +1,14 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { VALID_ENTITY } from '../../../config';
+import { Factura } from '../../../components/factura/entities/factura.entity';
 
 @Entity({ name: VALID_ENTITY.COMPROBANTE })
 @ObjectType()
@@ -17,4 +24,11 @@ export class Comprobante {
   @Column({ type: 'varchar' })
   @Field(() => String)
   concepto: string;
+
+  @Field(() => Factura)
+  @ManyToOne(() => Factura, (factura) => factura.comprobante, {
+    lazy: true,
+  })
+  @JoinColumn({ name: 'id_factura' })
+  factura: Factura;
 }

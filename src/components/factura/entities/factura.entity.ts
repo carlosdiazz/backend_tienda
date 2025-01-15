@@ -11,6 +11,7 @@ import {
 import { VALID_ENTITY } from '../../../config';
 import { Cliente } from '../../../components/clientes/entities/cliente.entity';
 import { FacturaDetalle } from '../../../components/factura_detalle/entities/factura_detalle.entity';
+import { Comprobante } from '../../../components/comprobante/entities/comprobante.entity';
 
 @Entity({ name: VALID_ENTITY.FACTURA })
 @ObjectType()
@@ -57,4 +58,10 @@ export class Factura {
     lazy: true,
   })
   factura_detalle: FacturaDetalle[];
+
+  @Field(() => [Comprobante])
+  @OneToMany(() => Comprobante, (comprobante) => comprobante.factura, {
+    lazy: true,
+  })
+  comprobante: Comprobante[];
 }
