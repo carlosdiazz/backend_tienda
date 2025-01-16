@@ -19,7 +19,7 @@ export class Cliente {
   @Field(() => Boolean)
   activo: boolean;
 
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', default: false })
   @Field(() => Boolean)
   is_generico: boolean;
 

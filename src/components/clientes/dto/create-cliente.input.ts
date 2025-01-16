@@ -13,7 +13,7 @@ export class CreateClienteInput {
   @IsOptional()
   activo: boolean;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   @IsBoolean()
   @IsOptional()
   is_generico: boolean;
