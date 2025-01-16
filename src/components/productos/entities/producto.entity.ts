@@ -40,6 +40,15 @@ export class Producto {
   @Field(() => Int)
   stock: number;
 
+  //Se usara para la alertas
+  @Column({ type: 'int' })
+  @Field(() => Int)
+  stock_minimo: number;
+
+  @Column({ type: 'boolean', default: true })
+  @Field(() => Boolean)
+  is_service: boolean;
+
   @Field(() => [FacturaDetalle])
   @OneToMany(
     () => FacturaDetalle,

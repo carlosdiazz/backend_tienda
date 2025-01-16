@@ -25,6 +25,7 @@ export class ProductosService {
     createProductoInput: CreateProductoInput,
   ): Promise<Producto> {
     try {
+      console.log(createProductoInput);
       const new_entity = this.repository.create(createProductoInput);
       const entity = await this.repository.save(new_entity);
       return await this.findOne(entity.id);

@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
   Min,
   MinLength,
 } from 'class-validator';
@@ -21,6 +22,8 @@ export class CreateProductoInput {
   descripcion: string;
 
   @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsString()
   img_url?: string;
 
   @Field(() => Boolean)
@@ -42,4 +45,14 @@ export class CreateProductoInput {
   @IsNumber()
   @Min(0)
   stock: number;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(0)
+  stock_minimo: number;
+
+  @Field(() => Boolean)
+  @IsBoolean()
+  @IsOptional()
+  is_service: boolean;
 }
