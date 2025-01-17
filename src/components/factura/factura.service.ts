@@ -91,11 +91,15 @@ export class FacturaService {
     }
 
     for (const product of productos) {
-      const { stock } = await this.productosService.findOne(
+      const { stock, is_service } = await this.productosService.findOne(
         product.id_producto,
       );
-      if (stock < product.cantidad) {
-        throw new BadGatewayException(`No hay Stock Suficiente `);
+      if (is_service) {
+        continue;
+      } else {
+        if (stock < product.cantidad) {
+          throw new BadGatewayException(`No hay Stock Suficiente `);
+        }
       }
     }
   }

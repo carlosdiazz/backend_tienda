@@ -40,7 +40,7 @@ export class ClientesService {
           activo,
         },
         order: {
-          name: 'ASC',
+          id: 'ASC',
         },
         take,
         skip,

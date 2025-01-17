@@ -33,8 +33,15 @@ export class FacturaDetalleService {
       const { cantidad, id_factura, id_producto } = createFacturaDetalleInput;
       const producto = await this.productoService.findOne(id_producto);
 
-      //Disminiur el stock
-      const new_stock = producto.stock - cantidad;
+      let new_stock = 0;
+      if (producto.is_service) {
+        //Si es Servicio no rebajo el Stock
+        new_stock = producto.stock;
+      } else {
+        //Disminiur el stock
+        new_stock = producto.stock - cantidad;
+      }
+
       await this.productoService.update(producto.id, {
         stock: new_stock,
         id: producto.id,

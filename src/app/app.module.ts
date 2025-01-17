@@ -23,10 +23,12 @@ import {
   FacturaModule,
   FacturaDetalle,
   ComprobanteModule,
+  TelegramModule,
 } from './../components';
 import { AppInit } from './app-init.service';
 import { AuthModule } from '../auth';
 import { configVariable, validationENV } from '../config';
+import { CronModule } from 'src/components/cron';
 
 const isProduction = process.env.STATE === 'PROD';
 
@@ -52,6 +54,10 @@ const baseImports = [
     persistedQueries: false,
     fieldResolverEnhancers: ['interceptors'],
   }),
+
+  //Cron
+  TelegramModule,
+  CronModule,
 
   //Componentes de Auth
   AuthModule,
