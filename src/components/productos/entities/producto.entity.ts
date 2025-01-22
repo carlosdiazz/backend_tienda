@@ -1,5 +1,12 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 //Propio
 import { VALID_ENTITY } from '../../../config';
@@ -48,6 +55,20 @@ export class Producto {
   @Column({ type: 'boolean', default: true })
   @Field(() => Boolean)
   is_service: boolean;
+
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createAt: Date;
+
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  update_at: Date;
 
   @Field(() => [FacturaDetalle])
   @OneToMany(

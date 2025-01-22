@@ -21,9 +21,6 @@ export class CreateEmpresaInput {
   @MinLength(3)
   descripcion: string;
 
-  @Field(() => String, { nullable: true })
-  img_url?: string;
-
   @Field(() => Boolean)
   @IsBoolean()
   @IsOptional()
@@ -37,5 +34,5 @@ export class CreateEmpresaInput {
   @Field(() => String)
   @IsString()
   @MinLength(3)
-  rnc: string;
+  cedula: string;
 }

@@ -6,35 +6,31 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
+//Propio
 import { VALID_ENTITY } from '../../../config';
 
-@Entity({ name: VALID_ENTITY.PROVEEDOR })
+@Entity({ name: VALID_ENTITY.INVENTARIO })
 @ObjectType()
-export class Proveedor {
+export class Inventario {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
   id: number;
 
-  @Column({ type: 'varchar' })
-  @Field(() => String)
-  name: string;
+  @Column({ type: 'int' })
+  @Field(() => Int)
+  existencia: number;
+
+  @Column({ type: 'int' })
+  @Field(() => Int)
+  existencia_anterior: number;
 
   @Column({ type: 'varchar' })
   @Field(() => String)
-  descripcion: string;
-
-  @Column({ type: 'varchar' })
-  @Field(() => String)
-  direccion: string;
-
-  @Column({ type: 'varchar' })
-  @Field(() => String)
-  telefono: string;
+  concepto: string;
 
   @Column({ type: 'boolean', default: true })
   @Field(() => Boolean)
-  activo: boolean;
+  is_ingreso: boolean;
 
   @CreateDateColumn({
     name: 'create_at',

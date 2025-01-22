@@ -1,10 +1,12 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { VALID_ENTITY } from '../../../config';
@@ -24,6 +26,20 @@ export class Comprobante {
   @Column({ type: 'varchar' })
   @Field(() => String)
   concepto: string;
+
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createAt: Date;
+
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  update_at: Date;
 
   @Field(() => Factura)
   @ManyToOne(() => Factura, (factura) => factura.comprobante, {

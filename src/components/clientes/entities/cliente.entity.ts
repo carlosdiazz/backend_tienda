@@ -1,5 +1,12 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { VALID_ENTITY } from '../../../config';
 import { Factura } from '../../../components/factura/entities/factura.entity';
@@ -34,6 +41,20 @@ export class Cliente {
   @Column({ type: 'varchar' })
   @Field(() => String)
   telefono: string;
+
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createAt: Date;
+
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  update_at: Date;
 
   //Relaciones
   @Field(() => [Factura], { nullable: true })

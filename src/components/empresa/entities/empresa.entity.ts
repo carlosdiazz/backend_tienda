@@ -1,5 +1,11 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 //Propio
 import { VALID_ENTITY } from '../../../config';
@@ -19,10 +25,6 @@ export class Empresa {
   @Field(() => String)
   descripcion: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  @Field(() => String, { nullable: true })
-  img_url?: string;
-
   @Column({ type: 'boolean', default: true })
   @Field(() => Boolean)
   activo: boolean;
@@ -33,5 +35,19 @@ export class Empresa {
 
   @Column({ type: 'varchar', unique: true })
   @Field(() => String)
-  rnc: string;
+  cedula: string;
+
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createAt: Date;
+
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  update_at: Date;
 }

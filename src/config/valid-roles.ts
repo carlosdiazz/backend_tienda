@@ -8,6 +8,7 @@ export enum VALID_ENTITY {
   FACTURA = 'factura',
   FACTURA_DETALLE = 'fact_detalle',
   COMPROBANTE = 'comprobante',
+  INVENTARIO = 'inventario',
 }
 
 export class ROLES {
