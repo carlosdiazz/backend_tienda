@@ -25,8 +25,10 @@ export class ProductosService {
     createProductoInput: CreateProductoInput,
   ): Promise<Producto> {
     try {
-      console.log(createProductoInput);
-      const new_entity = this.repository.create(createProductoInput);
+      const new_entity = this.repository.create({
+        ...createProductoInput,
+        stock: 0,
+      });
       const entity = await this.repository.save(new_entity);
       return await this.findOne(entity.id);
     } catch (e) {
@@ -89,5 +91,24 @@ export class ProductosService {
         error: true,
       };
     }
+  }
+
+  public async modificarStock(
+    id_producto: number,
+    cantidad: number,
+    is_ingreso: boolean,
+  ): Promise<void> {
+    console.log('TODO - disminuirStock');
+    const product = await this.findOne(id_producto);
+    if (product.is_service) {
+      return;
+    }
+
+    const new_stock: number = is_ingreso
+      ? product.stock + cantidad
+      : product.stock - cantidad;
+
+    this.repository.merge(product, { stock: new_stock });
+    await this.repository.save(product);
   }
 }

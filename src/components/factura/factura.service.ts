@@ -33,12 +33,10 @@ export class FacturaService {
     private readonly facturaDetalle: FacturaDetalleService,
   ) {}
 
-  //TODO
   private generarCodigofactura(): number {
-    return Math.floor(100000 + Math.random() * 900000);
+    return Math.floor(1000000 + Math.random() * 9000000);
   }
 
-  //TODO
   private calcularFaltante(
     cliente: Cliente,
     is_credito: boolean,
@@ -69,7 +67,6 @@ export class FacturaService {
     );
   }
 
-  //TODO
   private async calcularTotal(
     productos: ProductoCantidadInput[],
   ): Promise<number> {

@@ -24,6 +24,7 @@ import {
   FacturaDetalle,
   ComprobanteModule,
   TelegramModule,
+  InventarioModule,
 } from './../components';
 import { AppInit } from './app-init.service';
 import { AuthModule } from '../auth';
@@ -75,6 +76,7 @@ const baseImports = [
   FacturaModule,
   FacturaDetalle,
   ComprobanteModule,
+  InventarioModule,
 ];
 
 @Module({

@@ -11,7 +11,7 @@ export class CreateInventarioInput {
   @Field(() => Int)
   @IsNumber()
   @Min(0)
-  existencia: number;
+  cantidad: number;
 
   @Field(() => Int)
   @IsNumber()

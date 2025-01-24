@@ -10,7 +10,8 @@ import {
 
 //Propio
 import { VALID_ENTITY } from '../../../config';
-import { FacturaDetalle } from 'src/components/factura_detalle/entities/factura_detalle.entity';
+import { FacturaDetalle } from '../../../components/factura_detalle/entities/factura_detalle.entity';
+import { Inventario } from '../../../components/inventario/entities/inventario.entity';
 
 @Entity({ name: VALID_ENTITY.PRODUCTO })
 @ObjectType()
@@ -27,9 +28,9 @@ export class Producto {
   @Field(() => String)
   descripcion: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  @Field(() => String, { nullable: true })
-  img_url?: string;
+  //@Column({ type: 'varchar', nullable: true })
+  //@Field(() => String, { nullable: true })
+  //img_url?: string;
 
   @Column({ type: 'boolean', default: true })
   @Field(() => Boolean)
@@ -77,4 +78,10 @@ export class Producto {
     { lazy: true },
   )
   factura_detalle: FacturaDetalle[];
+
+  @Field(() => [Inventario])
+  @OneToMany(() => Inventario, (inventario) => inventario.producto, {
+    lazy: true,
+  })
+  inventario: Inventario[];
 }

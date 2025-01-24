@@ -1,5 +1,5 @@
 import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
-import { IsNumber, Min } from 'class-validator';
+import { IsNumber, IsOptional, Min } from 'class-validator';
 
 //Propio
 import { CreateProductoInput } from './create-producto.input';

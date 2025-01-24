@@ -3,11 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 //Propio
 import { VALID_ENTITY } from '../../../config';
+import { Producto } from '../../../components/productos/entities/producto.entity';
 
 @Entity({ name: VALID_ENTITY.INVENTARIO })
 @ObjectType()
@@ -18,11 +21,7 @@ export class Inventario {
 
   @Column({ type: 'int' })
   @Field(() => Int)
-  existencia: number;
-
-  @Column({ type: 'int' })
-  @Field(() => Int)
-  existencia_anterior: number;
+  cantidad: number;
 
   @Column({ type: 'varchar' })
   @Field(() => String)
@@ -45,4 +44,12 @@ export class Inventario {
     default: () => 'CURRENT_TIMESTAMP',
   })
   update_at: Date;
+
+  //Relaciones
+  @Field(() => Producto)
+  @ManyToOne(() => Producto, (producto) => producto.inventario, {
+    lazy: true,
+  })
+  @JoinColumn({ name: 'id_producto' })
+  producto: Producto;
 }

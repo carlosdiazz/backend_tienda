@@ -8,3 +8,4 @@ export * from './clientes';
 export * from './factura';
 export * from './factura_detalle';
 export * from './comprobante';
+export * from './inventario';

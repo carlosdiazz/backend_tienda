@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { InventarioService } from './inventario.service';
 import { InventarioResolver } from './inventario.resolver';
 import { Inventario } from './entities/inventario.entity';
+import { ProductosModule } from '../productos';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Inventario])],
+  imports: [TypeOrmModule.forFeature([Inventario]), ProductosModule],
   providers: [InventarioResolver, InventarioService],
   exports: [InventarioService],
 })
