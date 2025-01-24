@@ -10,7 +10,7 @@ import {
 //Propio
 import { VALID_ENTITY } from '../../../config';
 
-@Entity({ name: VALID_ENTITY.EMPRESA })
+@Entity({ name: VALID_ENTITY.EMPLEADOS })
 @ObjectType()
 export class Empresa {
   @PrimaryGeneratedColumn()

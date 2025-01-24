@@ -1,7 +1,7 @@
 export enum VALID_ENTITY {
   ROLE = 'role',
   USER = 'user',
-  EMPRESA = 'empresa',
+  EMPLEADOS = 'empleados',
   PRODUCTO = 'producto',
   PROVEEDOR = 'proveedor',
   CLIENTE = 'cliente',

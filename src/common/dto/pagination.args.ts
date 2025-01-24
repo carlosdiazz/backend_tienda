@@ -16,5 +16,5 @@ export class PaginationArgs {
   @Field(() => Boolean, { nullable: true })
   @IsOptional()
   @IsBoolean()
-  public activo: true;
+  public activo = true;
 }
