@@ -10,6 +10,7 @@ import { PaginationArgs, ResponsePropioGQl } from '../../common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../users';
+import { FilterProductosArg } from './dto/filter-producto.dto';
 
 @UseGuards(JwtAuthGuard)
 @Resolver(() => Producto)
@@ -27,7 +28,7 @@ export class ProductosResolver {
   @Query(() => [Producto], { name: 'allProductos' })
   public async findAll(
     @CurrentUser([]) user: User,
-    @Args() paginationArgs: PaginationArgs,
+    @Args() paginationArgs: FilterProductosArg,
   ): Promise<Producto[]> {
     return await this.productosService.findAll(paginationArgs);
   }

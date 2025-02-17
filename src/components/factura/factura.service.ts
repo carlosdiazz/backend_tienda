@@ -22,6 +22,7 @@ import {
   CreateFacturaDetalleInput,
   FacturaDetalleService,
 } from '../factura_detalle';
+import { FilterFacturasArg } from './dto/filter-factura.dto';
 
 @Injectable()
 export class FacturaService {
@@ -129,6 +130,12 @@ export class FacturaService {
     //Verificar Clientes
     const cliente = await this.clienteService.findOne(id_cliente);
 
+    if (cliente.id === 5 && is_credito === true) {
+      throw new UnprocessableEntityException(
+        `El cliente ${cliente.name} no puede ser credito`,
+      );
+    }
+
     //Verificar IDs Productos y Stock
     await this.revisarProductos(productos);
 
@@ -146,6 +153,14 @@ export class FacturaService {
       total,
     );
 
+    if (is_credito && total_pagado === total) {
+      throw new UnprocessableEntityException(
+        `Si es credito no puedes pagar el monto total`,
+      );
+    }
+
+    const is_paid = total_pagado === total;
+
     try {
       const new_entity = this.repository.create({
         activo,
@@ -154,6 +169,7 @@ export class FacturaService {
         codigo_factura,
         faltante,
         total,
+        is_paid,
         cliente: {
           id: id_cliente,
         },
@@ -165,12 +181,13 @@ export class FacturaService {
     }
   }
 
-  public async findAll(pagination: PaginationArgs): Promise<Factura[]> {
-    const { limit: take, offset: skip, activo } = pagination;
+  public async findAll(pagination: FilterFacturasArg): Promise<Factura[]> {
+    const { limit: take, offset: skip, activo, is_paid } = pagination;
     try {
       return await this.repository.find({
         where: {
           activo,
+          is_paid,
         },
         take,
         skip,

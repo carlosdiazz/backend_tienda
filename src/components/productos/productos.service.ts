@@ -13,6 +13,7 @@ import { UpdateProductoInput } from './dto/update-producto.input';
 import { Producto } from './entities/producto.entity';
 import { PaginationArgs, ResponsePropioGQl } from '../../common';
 import { MESSAGE } from '../../config';
+import { FilterProductosArg } from './dto/filter-producto.dto';
 
 @Injectable()
 export class ProductosService {
@@ -36,12 +37,13 @@ export class ProductosService {
     }
   }
 
-  public async findAll(pagination: PaginationArgs): Promise<Producto[]> {
-    const { limit: take, offset: skip, activo } = pagination;
+  public async findAll(pagination: FilterProductosArg): Promise<Producto[]> {
+    const { limit: take, offset: skip, activo, is_service } = pagination;
     try {
       return await this.repository.find({
         where: {
           activo,
+          is_service,
         },
         order: {
           codigo: 'ASC',

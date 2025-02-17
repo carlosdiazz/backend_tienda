@@ -40,6 +40,7 @@ export class ComprobanteService {
     await this.facturaService.update(id_factura, {
       id: id_factura,
       total_pagado: new_monto,
+      is_paid: new_faltante === 0 ? true : false,
       faltante: new_faltante,
     });
   }

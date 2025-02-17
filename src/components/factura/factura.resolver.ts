@@ -9,6 +9,7 @@ import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
 import { PaginationArgs, ResponsePropioGQl } from '../../common';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { FilterFacturasArg } from './dto/filter-factura.dto';
 
 @UseGuards(JwtAuthGuard)
 @Resolver(() => Factura)
@@ -26,7 +27,7 @@ export class FacturaResolver {
   @Query(() => [Factura], { name: 'allFactura' })
   public async findAll(
     @CurrentUser([]) user: User,
-    @Args() paginationArgs: PaginationArgs,
+    @Args() paginationArgs: FilterFacturasArg,
   ): Promise<Factura[]> {
     return this.service.findAll(paginationArgs);
   }
