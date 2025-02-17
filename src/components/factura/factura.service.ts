@@ -182,12 +182,19 @@ export class FacturaService {
   }
 
   public async findAll(pagination: FilterFacturasArg): Promise<Factura[]> {
-    const { limit: take, offset: skip, activo, is_paid } = pagination;
+    const {
+      limit: take,
+      offset: skip,
+      activo,
+      is_paid,
+      id_cliente,
+    } = pagination;
     try {
       return await this.repository.find({
         where: {
           activo,
           is_paid,
+          cliente: { id: id_cliente },
         },
         take,
         skip,
