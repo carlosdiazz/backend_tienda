@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, Min } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, Min } from 'class-validator';
 import { CreateFacturaInput } from './create-factura.input';
 import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 
@@ -14,4 +14,8 @@ export class UpdateFacturaInput extends PartialType(CreateFacturaInput) {
   @IsOptional()
   @Min(0)
   faltante?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  is_paid?: boolean;
 }

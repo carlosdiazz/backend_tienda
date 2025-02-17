@@ -46,6 +46,10 @@ export class Factura {
   @Field(() => Int)
   faltante: number;
 
+  @Column({ type: 'boolean', default: false })
+  @Field(() => Boolean)
+  is_paid: boolean;
+
   //Realciones
   @Field(() => Cliente, { nullable: true })
   @ManyToOne(() => Cliente, (cliente) => cliente.facturas, {

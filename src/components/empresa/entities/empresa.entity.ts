@@ -37,6 +37,14 @@ export class Empresa {
   @Field(() => String)
   cedula: string;
 
+  @Column({ type: 'int' })
+  @Field(() => Int)
+  sueldo: number;
+
+  @Field(() => Date)
+  @Column({ type: 'timestamptz' })
+  fecha: Date;
+
   @CreateDateColumn({
     name: 'create_at',
     type: 'timestamptz',

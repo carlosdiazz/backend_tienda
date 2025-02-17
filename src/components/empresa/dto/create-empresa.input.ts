@@ -1,10 +1,12 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
 import {
   IsBoolean,
+  IsDateString,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
+  Matches,
   Min,
   MinLength,
 } from 'class-validator';
@@ -35,4 +37,14 @@ export class CreateEmpresaInput {
   @IsString()
   @MinLength(3)
   cedula: string;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(0)
+  sueldo: number;
+
+  @Field(() => String)
+  @IsDateString()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/) // Expresion regular para recibir la fecha en AAAA:MM:DD  2022-10-19
+  fecha: Date;
 }
