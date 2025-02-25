@@ -5,19 +5,19 @@ import { ComprobanteService } from './comprobante.service';
 import { Comprobante } from './entities/comprobante.entity';
 import { CreateComprobanteInput } from './dto/create-comprobante.input';
 import { UpdateComprobanteInput } from './dto/update-comprobante.input';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { CurrentUser } from '../../auth';
+//import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+//import { CurrentUser } from '../../auth';
 import { User } from '../users';
 import { PaginationArgs, ResponsePropioGQl } from '../../common';
 
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @Resolver(() => Comprobante)
 export class ComprobanteResolver {
   constructor(private readonly service: ComprobanteService) {}
 
   @Mutation(() => Comprobante, { name: 'createComprobante' })
   public async create(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args('createComprobanteInput')
     createComprobanteInput: CreateComprobanteInput,
   ): Promise<Comprobante> {
@@ -26,7 +26,7 @@ export class ComprobanteResolver {
 
   @Query(() => [Comprobante], { name: 'allComprobante' })
   public async findAll(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args() paginationArgs: PaginationArgs,
   ): Promise<Comprobante[]> {
     return this.service.findAll(paginationArgs);
@@ -34,7 +34,7 @@ export class ComprobanteResolver {
 
   @Query(() => Comprobante, { name: 'findComprobante' })
   public async findOne(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
   ): Promise<Comprobante> {
     return this.service.findOne(id);
@@ -53,7 +53,7 @@ export class ComprobanteResolver {
 
   @Mutation(() => ResponsePropioGQl, { name: 'removeComprobante' })
   public async remove(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
   ): Promise<ResponsePropioGQl> {
     return await this.service.remove(id);

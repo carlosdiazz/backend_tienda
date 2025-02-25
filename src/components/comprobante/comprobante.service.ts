@@ -48,12 +48,15 @@ export class ComprobanteService {
   public async create(
     createComprobanteInput: CreateComprobanteInput,
   ): Promise<Comprobante> {
-    const { concepto, id_factura, monto_pagado } = createComprobanteInput;
+    const { concepto, id_factura, monto_pagado, metodo_pago, referencia_pago } =
+      createComprobanteInput;
     await this.actualizar_monto(monto_pagado, id_factura);
     try {
       const new_entity = this.repository.create({
         concepto,
         monto_pagado,
+        referencia_pago,
+        metodo_pago,
         factura: {
           id: id_factura,
         },

@@ -124,8 +124,15 @@ export class FacturaService {
   private async pre_create(
     createFacturaInput: CreateFacturaInput,
   ): Promise<Factura> {
-    const { id_cliente, activo, is_credito, total_pagado, productos } =
-      createFacturaInput;
+    const {
+      id_cliente,
+      activo,
+      is_credito,
+      total_pagado,
+      productos,
+      metodo_pago,
+      referencia_pago,
+    } = createFacturaInput;
 
     //Verificar Clientes
     const cliente = await this.clienteService.findOne(id_cliente);
@@ -170,6 +177,8 @@ export class FacturaService {
         faltante,
         total,
         is_paid,
+        metodo_pago,
+        referencia_pago,
         cliente: {
           id: id_cliente,
         },

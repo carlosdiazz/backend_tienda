@@ -27,6 +27,14 @@ export class Comprobante {
   @Field(() => String)
   concepto: string;
 
+  @Column({ type: 'varchar', default: 'EFECTIVO' })
+  @Field(() => String)
+  referencia_pago: string;
+
+  @Column({ type: 'varchar', default: 'EFECTIVO' })
+  @Field(() => String)
+  metodo_pago: string;
+
   @CreateDateColumn({
     name: 'create_at',
     type: 'timestamptz',

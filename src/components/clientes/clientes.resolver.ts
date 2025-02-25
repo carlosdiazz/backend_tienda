@@ -5,19 +5,19 @@ import { ClientesService } from './clientes.service';
 import { Cliente } from './entities/cliente.entity';
 import { CreateClienteInput } from './dto/create-cliente.input';
 import { UpdateClienteInput } from './dto/update-cliente.input';
-import { CurrentUser } from '../../auth/decorators/current-user.decorator';
-import { User } from '../users/entities/user.entity';
+//import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+//import { User } from '../users/entities/user.entity';
 import { PaginationArgs, ResponsePropioGQl } from '../../common';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+//import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @Resolver(() => Cliente)
 export class ClientesResolver {
   constructor(private readonly service: ClientesService) {}
 
   @Mutation(() => Cliente, { name: 'createCliente' })
   public async create(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args('createClienteInput') createClienteInput: CreateClienteInput,
   ): Promise<Cliente> {
     return await this.service.create(createClienteInput);
@@ -25,7 +25,7 @@ export class ClientesResolver {
 
   @Query(() => [Cliente], { name: 'allCliente' })
   public async findAll(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args() paginationArgs: PaginationArgs,
   ): Promise<Cliente[]> {
     return this.service.findAll(paginationArgs);
@@ -33,7 +33,7 @@ export class ClientesResolver {
 
   @Query(() => Cliente, { name: 'findCliente' })
   public async findOne(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
   ): Promise<Cliente> {
     return this.service.findOne(id);
@@ -48,7 +48,7 @@ export class ClientesResolver {
 
   @Mutation(() => ResponsePropioGQl, { name: 'removeCliente' })
   public async remove(
-    @CurrentUser([]) user: User,
+    //@CurrentUser([]) user: User,
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
   ): Promise<ResponsePropioGQl> {
     return await this.service.remove(id);

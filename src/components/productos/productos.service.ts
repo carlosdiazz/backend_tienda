@@ -89,7 +89,7 @@ export class ProductosService {
       };
     } catch (error) {
       return {
-        message: MESSAGE.COMUN_NO_SE_PUDO_ELIMINAR,
+        message: `Este producto no se puede eliminar ya esta en uso`,
         error: true,
       };
     }

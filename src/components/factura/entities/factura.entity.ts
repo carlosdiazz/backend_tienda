@@ -50,6 +50,14 @@ export class Factura {
   @Field(() => Boolean)
   is_paid: boolean;
 
+  @Column({ type: 'varchar', default: 'EFECTIVO' })
+  @Field(() => String)
+  referencia_pago: string;
+
+  @Column({ type: 'varchar', default: 'EFECTIVO' })
+  @Field(() => String)
+  metodo_pago: string;
+
   //Realciones
   @Field(() => Cliente, { nullable: true })
   @ManyToOne(() => Cliente, (cliente) => cliente.facturas, {
