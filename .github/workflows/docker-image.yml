@@ -30,7 +30,7 @@ jobs:
     - name: Build Docker Image
       run: |
         docker build -t carlosdiazz/nest-backend-tienda:0.0.2 .
-        docker push carlosdiazz/nest-backend-tienda:latest .
+        docker build -t carlosdiazz/nest-backend-tienda:latest .
 
     - name: Push Docker Image
       run: |
