@@ -59,3 +59,4 @@ export class CreateFacturaInput {
   @Type(() => ProductoCantidadInput)
   productos: ProductoCantidadInput[];
 }
+//ok
