@@ -2,11 +2,10 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import {
   IsBoolean,
-  IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
   Min,
-  MinLength,
   ValidateNested,
 } from 'class-validator';
 
@@ -46,13 +45,13 @@ export class CreateFacturaInput {
   total_pagado: number;
 
   @Field(() => String)
-  @IsNotEmpty()
-  @MinLength(3)
+  @IsOptional()
+  @IsString()
   referencia_pago: string;
 
   @Field(() => String)
-  @IsNotEmpty()
-  @MinLength(3)
+  @IsOptional()
+  @IsString()
   metodo_pago: string;
 
   @Field(() => [ProductoCantidadInput])
