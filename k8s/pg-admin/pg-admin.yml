@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-admin-deployment
+  labels:
+    app: pg-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pg-admin
+  template:
+    metadata:
+      labels:
+        app: pg-admin
+    spec:
+      containers:
+      - name: pg-admin
+        image: dpage/pgadmin4:6.17
+        ports:
+        - containerPort: 80
+        env:
+          - name: PGADMIN_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pg-admin-secrets
+                key: DB_PASSWORD
+
+          - name: PGADMIN_DEFAULT_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: pg-admin-secrets
+                key: DB_USER_EMAIL
+
+          - name: PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
+            value: "False"
+
+#Esto es para que sea otro YML
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-admin-service
+spec:
+  type: NodePort # Expone el servicio a través de un puerto en los nodos del cluster
+  selector:
+    app: pg-admin
+  ports:
+    - protocol: TCP
+      port: 80  #Este peude ser cualqueira, este es el que expongo
+      targetPort: 80 #Esto es lo qeu se conectara con el peurto del contenedeo
+      nodePort: 30200 # Puerto en el nodo (accesible externamente)
+
