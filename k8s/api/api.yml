@@ -28,7 +28,6 @@ spec:
 
           - name: TELEFONO_TELEGRAM
             value: ""
-            
 
 #Esto es para que sea otro YML
 ---
