@@ -17,4 +17,9 @@ export class CreateInventarioInput {
   @IsNumber()
   @Min(0)
   id_producto: number;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(0)
+  id_proveedor?: number;
 }

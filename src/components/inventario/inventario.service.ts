@@ -14,6 +14,7 @@ import { Inventario } from './entities/inventario.entity';
 import { InevntarioArgs } from './dto/inventario-all.args';
 import { MESSAGE } from '../../config';
 import { ProductosService } from '../productos';
+import { ProveedorService } from '../proveedor';
 
 @Injectable()
 export class InventarioService {
@@ -21,16 +22,22 @@ export class InventarioService {
     @InjectRepository(Inventario)
     private readonly repository: Repository<Inventario>,
     private readonly productoService: ProductosService,
+    private readonly proveedorService: ProveedorService,
   ) {}
 
   public async create(
     createInventarioInput: CreateInventarioInput,
   ): Promise<Inventario> {
-    const { id_producto, concepto, cantidad } = createInventarioInput;
+    const { id_producto, concepto, cantidad, id_proveedor } =
+      createInventarioInput;
 
     await this.productoService.findOne(id_producto);
 
     await this.productoService.modificarStock(id_producto, cantidad, true);
+
+    if (id_proveedor) {
+      await this.proveedorService.findOne(id_proveedor);
+    }
 
     try {
       const new_entity = this.repository.create({
@@ -39,6 +46,9 @@ export class InventarioService {
         is_ingreso: true,
         producto: {
           id: id_producto,
+        },
+        proveedor: {
+          id: id_proveedor ?? null,
         },
       });
       const entity = await this.repository.save(new_entity);

@@ -1,5 +1,12 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsNotEmpty, IsNumber, Min, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 @InputType()
 export class CreateComprobanteInput {
@@ -19,8 +26,8 @@ export class CreateComprobanteInput {
   concepto: string;
 
   @Field(() => String)
-  @IsNotEmpty()
-  @MinLength(3)
+  @IsOptional()
+  @IsString()
   referencia_pago: string;
 
   @Field(() => String)

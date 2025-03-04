@@ -1,5 +1,3 @@
-import * as express from 'express';
-import * as path from 'path';
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 
@@ -27,8 +25,6 @@ async function bootstrap() {
     //optionsSuccessStatus: 204,
   });
 
-  // Configurar Express para servir archivos estáticos
-  app.use(express.static(path.join(__dirname, '../public')));
   logger.debug(envs);
   await app.listen(envs.PORT);
   logger.debug(

@@ -100,7 +100,6 @@ export class ProductosService {
     cantidad: number,
     is_ingreso: boolean,
   ): Promise<void> {
-    console.log('TODO - disminuirStock');
     const product = await this.findOne(id_producto);
     if (product.is_service) {
       return;
