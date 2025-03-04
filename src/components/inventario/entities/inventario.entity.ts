@@ -11,6 +11,7 @@ import {
 //Propio
 import { VALID_ENTITY } from '../../../config';
 import { Producto } from '../../../components/productos/entities/producto.entity';
+import { Proveedor } from 'src/components/proveedor/entities/proveedor.entity';
 
 @Entity({ name: VALID_ENTITY.INVENTARIO })
 @ObjectType()
@@ -30,6 +31,14 @@ export class Inventario {
   @Column({ type: 'boolean', default: true })
   @Field(() => Boolean)
   is_ingreso: boolean;
+
+  @Field(() => Proveedor, { nullable: true })
+  @ManyToOne(() => Proveedor, (proveedor) => proveedor.inventario, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn({ name: 'id_proveedor' })
+  proveedor?: Proveedor;
 
   @CreateDateColumn({
     name: 'create_at',

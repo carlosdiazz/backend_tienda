@@ -244,7 +244,7 @@ export class FacturaService {
   public async remove(id: number): Promise<ResponsePropioGQl> {
     const entity = await this.findOne(id);
     try {
-      await this.repository.remove(entity);
+      await this.update(id, { activo: false, id });
       return {
         message: MESSAGE.COMUN_SE_ELIMINO_CORRECTAMENTE,
         error: false,
