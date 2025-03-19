@@ -36,8 +36,10 @@ export class InventarioResolver {
   //  return this.inventarioService.findOne(id);
   //}
   //
-  //@Mutation(() => Inventario)
-  //removeInventario(@Args('id', { type: () => Int }) id: number) {
-  //  return this.inventarioService.remove(id);
-  //}
+  @Mutation(() => Inventario)
+  public async changeStatusInventario(
+    @Args('id', { type: () => Int }) id: number,
+  ) {
+    return await this.inventarioService.changeStatus(id);
+  }
 }
