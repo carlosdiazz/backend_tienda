@@ -75,6 +75,9 @@ export class ComprobanteService {
       return await this.repository.find({
         take,
         skip,
+        order: {
+          createAt: 'DESC',
+        },
       });
     } catch (e) {
       throw new BadRequestException(e?.message);

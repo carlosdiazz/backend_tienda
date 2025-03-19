@@ -32,6 +32,10 @@ export class Inventario {
   @Field(() => Boolean)
   is_ingreso: boolean;
 
+  @Column({ type: 'boolean', default: false })
+  @Field(() => Boolean)
+  is_credito: boolean;
+
   @Field(() => Proveedor, { nullable: true })
   @ManyToOne(() => Proveedor, (proveedor) => proveedor.inventario, {
     eager: true,

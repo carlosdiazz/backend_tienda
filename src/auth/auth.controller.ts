@@ -17,7 +17,7 @@ export class AuthController {
     const { token, user } = await this.authService.login(loginInput);
     const { password, ...resp } = user;
 
-    return res.status(200).json({ token, ...resp });
+    return res.status(200).json({ ...resp, token });
   }
 
   @Get('revaliteToken')

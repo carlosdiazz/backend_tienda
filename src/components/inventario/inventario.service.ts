@@ -28,7 +28,7 @@ export class InventarioService {
   public async create(
     createInventarioInput: CreateInventarioInput,
   ): Promise<Inventario> {
-    const { id_producto, concepto, cantidad, id_proveedor } =
+    const { id_producto, concepto, cantidad, id_proveedor, is_credito } =
       createInventarioInput;
 
     await this.productoService.findOne(id_producto);
@@ -43,6 +43,7 @@ export class InventarioService {
       const new_entity = this.repository.create({
         concepto,
         cantidad,
+        is_credito,
         is_ingreso: true,
         producto: {
           id: id_producto,
@@ -61,12 +62,14 @@ export class InventarioService {
   public async createMediantefactura(
     createInventarioInput: CreateInventarioInput,
   ): Promise<Inventario> {
-    const { id_producto, cantidad, concepto } = createInventarioInput;
+    const { id_producto, cantidad, concepto, is_credito } =
+      createInventarioInput;
     await this.productoService.modificarStock(id_producto, cantidad, false);
     try {
       const new_entity = this.repository.create({
         concepto,
         cantidad,
+        is_credito,
         is_ingreso: false,
         producto: {
           id: id_producto,
@@ -97,7 +100,7 @@ export class InventarioService {
           is_ingreso,
         },
         order: {
-          createAt: 'ASC',
+          createAt: 'DESC',
         },
         take,
         skip,

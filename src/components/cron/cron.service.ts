@@ -11,10 +11,10 @@ export class CronService {
   ) {}
   private readonly logger = new Logger('CronService');
 
-  @Cron('* * * * *')
+  @Cron('0 * * * *')
   private async verificar_stock() {
     try {
-      this.logger.verbose('Verificando Stock');
+      //this.logger.verbose('Verificando Stock');
       await this.revisar_stock();
     } catch (e) {
       this.logger.error(`Error Revisando Stock ${e}`);
@@ -27,16 +27,19 @@ export class CronService {
       limit: 9999,
       offset: 0,
     });
-
+    let message = '';
     for (const product of products) {
       if (product.is_service) {
         continue;
       } else {
         if (product.stock < product.stock_minimo) {
-          const message = ` --- EL producto ${product.name} --- Esta por debajo del Stock Minimo, actualmente tiene ${product.stock}`;
-          await this.telegramService.sendMessages(message);
+          message =
+            message +
+            ` --- EL producto ${product.name} --- Esta por debajo del Stock Minimo, actualmente tiene ${product.stock}\n\n`;
         }
       }
     }
+    if (message === '') return;
+    await this.telegramService.sendMessages(message);
   }
 }

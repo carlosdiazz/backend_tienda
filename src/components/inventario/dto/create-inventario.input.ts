@@ -1,5 +1,12 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsNotEmpty, IsNumber, Min, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 @InputType()
 export class CreateInventarioInput {
@@ -22,4 +29,9 @@ export class CreateInventarioInput {
   @IsNumber()
   @Min(0)
   id_proveedor?: number;
+
+  @Field(() => Boolean)
+  @IsBoolean()
+  @IsOptional()
+  is_credito: boolean;
 }

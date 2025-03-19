@@ -35,6 +35,7 @@ export class FacturaDetalleService {
         id_producto,
         cantidad,
         concepto: 'EGRESO POR FACTURA',
+        is_credito: false,
       });
 
       const new_entity = this.repository.create({
