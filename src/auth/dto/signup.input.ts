@@ -19,11 +19,6 @@ export class SignupInput {
   @IsEmail()
   email: string;
 
-  @Field(() => String)
-  @IsNotEmpty()
-  @MinLength(5)
-  name: string;
-
   @Field(() => String, { nullable: true })
   @MinLength(8)
   password: string;

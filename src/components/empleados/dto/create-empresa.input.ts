@@ -35,23 +35,15 @@ export class CreateEmpresaInput {
 
   @Field(() => String)
   @IsString()
-  @MinLength(3)
+  @Matches(/^\d{3}-\d{7}-\d{1}$/, {
+    message: 'La cédula debe tener el formato 000-0000000-0',
+  })
   cedula: string;
 
   @Field(() => Int)
   @IsNumber()
   @Min(0)
   sueldo: number;
-
-  @Field(() => String)
-  @IsNotEmpty()
-  @MinLength(3)
-  documento: string;
-
-  @Field(() => String)
-  @IsNotEmpty()
-  @MinLength(3)
-  tipo_documento: string;
 
   @Field(() => String)
   @IsDateString()

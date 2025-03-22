@@ -47,14 +47,6 @@ export class Empresa {
   @Column({ type: 'timestamptz' })
   fecha: Date;
 
-  @Column({ type: 'varchar', default: '' })
-  @Field(() => String)
-  documento: string;
-
-  @Column({ type: 'varchar', default: '' })
-  @Field(() => String)
-  tipo_documento: string;
-
   @Field(() => User, { nullable: true })
   @OneToOne(() => User, (user) => user.empleado, {
     lazy: true,

@@ -77,7 +77,6 @@ export class UsersService {
       },
       take: limit,
       skip: offset,
-      order: { name: 'ASC' },
     });
     // Aqui hago mi query en si
   }

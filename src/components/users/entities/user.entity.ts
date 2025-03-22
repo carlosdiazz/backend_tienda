@@ -28,10 +28,6 @@ export class User {
   @Field(() => String)
   nickname: string;
 
-  @Column({ type: 'varchar' })
-  @Field(() => String)
-  name: string;
-
   @Column({ type: 'varchar', unique: true })
   @Field(() => String)
   email: string;

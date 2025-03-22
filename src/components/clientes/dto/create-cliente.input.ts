@@ -1,5 +1,11 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsBoolean, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  Matches,
+  MinLength,
+} from 'class-validator';
 
 @InputType()
 export class CreateClienteInput {
@@ -20,7 +26,9 @@ export class CreateClienteInput {
 
   @Field(() => String)
   @IsNotEmpty()
-  @MinLength(3)
+  @Matches(/^\d{3}-\d{7}-\d{1}$/, {
+    message: 'La cédula debe tener el formato 000-0000000-0',
+  })
   documento: string;
 
   @Field(() => String)

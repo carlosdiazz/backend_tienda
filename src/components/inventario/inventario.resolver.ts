@@ -5,19 +5,19 @@ import { UseGuards } from '@nestjs/common';
 import { InventarioService } from './inventario.service';
 import { Inventario } from './entities/inventario.entity';
 import { CreateInventarioInput } from './dto/create-inventario.input';
-//import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { InevntarioArgs } from './dto/inventario-all.args';
-//import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
 
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Resolver(() => Inventario)
 export class InventarioResolver {
   constructor(private readonly inventarioService: InventarioService) {}
 
   @Mutation(() => Inventario)
   public async createInventario(
-    //@CurrentUser([]) user: User,
+    @CurrentUser([]) user: User,
     @Args('createInventarioInput') createInventarioInput: CreateInventarioInput,
   ): Promise<Inventario> {
     return this.inventarioService.create(createInventarioInput);
@@ -25,7 +25,7 @@ export class InventarioResolver {
 
   @Query(() => [Inventario], { name: 'allInventarios' })
   public async findAll(
-    //@CurrentUser([]) user: User,
+    @CurrentUser([]) user: User,
     @Args() args: InevntarioArgs,
   ): Promise<Inventario[]> {
     return await this.inventarioService.findAll(args);
@@ -38,6 +38,7 @@ export class InventarioResolver {
   //
   @Mutation(() => Inventario)
   public async changeStatusInventario(
+    @CurrentUser([]) user: User,
     @Args('id', { type: () => Int }) id: number,
   ) {
     return await this.inventarioService.changeStatus(id);

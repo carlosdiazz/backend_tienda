@@ -29,11 +29,6 @@ export class CreateFacturaInput {
   @Min(0)
   id_cliente: number;
 
-  @Field(() => Int)
-  @IsNumber()
-  @Min(0)
-  id_user: number;
-
   @Field(() => Boolean)
   @IsBoolean()
   @IsOptional()

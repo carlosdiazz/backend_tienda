@@ -23,7 +23,7 @@ import {
   FacturaDetalleService,
 } from '../factura_detalle';
 import { FilterFacturasArg } from './dto/filter-factura.dto';
-import { UsersService } from '../users';
+import { User, UsersService } from '../users';
 
 @Injectable()
 export class FacturaService {
@@ -106,8 +106,9 @@ export class FacturaService {
 
   public async create(
     createFacturaInput: CreateFacturaInput,
+    user: User,
   ): Promise<Factura> {
-    const factura = await this.pre_create(createFacturaInput);
+    const factura = await this.pre_create(createFacturaInput, user);
 
     const productos: CreateFacturaDetalleInput[] =
       createFacturaInput.productos.map((i) => {
@@ -125,6 +126,7 @@ export class FacturaService {
 
   private async pre_create(
     createFacturaInput: CreateFacturaInput,
+    user: User,
   ): Promise<Factura> {
     const {
       id_cliente,
@@ -134,13 +136,10 @@ export class FacturaService {
       productos,
       metodo_pago,
       referencia_pago,
-      id_user,
     } = createFacturaInput;
 
     //Verificar Clientes
     const cliente = await this.clienteService.findOne(id_cliente);
-
-    await this.userService.findOneById(id_user);
 
     if (cliente.id === 5 && is_credito === true) {
       throw new UnprocessableEntityException(
@@ -188,7 +187,7 @@ export class FacturaService {
           id: id_cliente,
         },
         user: {
-          id: id_user,
+          id: user.id,
         },
       });
       const entity = await this.repository.save(new_entity);

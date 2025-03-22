@@ -97,7 +97,6 @@ export class AppInit implements OnModuleInit {
       this.logger.debug(`Creando el User: ${email}`);
       await this.userService.create({
         email: email,
-        name: email,
         nickname: email,
         password: password,
         role: ids_roles,
