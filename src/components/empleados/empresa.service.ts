@@ -55,7 +55,7 @@ export class EmpresaService {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
       throw new NotFoundException(
-        `${MESSAGE.COMUN_ESTE_ID_NO_EXISTE} => Empresa`,
+        `${MESSAGE.COMUN_ESTE_ID_NO_EXISTE} => Empleado`,
       );
     }
     return entity;

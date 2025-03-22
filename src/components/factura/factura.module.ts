@@ -7,6 +7,7 @@ import { Factura } from './entities/factura.entity';
 import { ClientesModule } from '../clientes';
 import { ProductosModule } from '../productos';
 import { FacturaDetalleModule } from '../factura_detalle';
+import { UsersModule } from '../users';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { FacturaDetalleModule } from '../factura_detalle';
     ClientesModule,
     ProductosModule,
     FacturaDetalleModule,
+    UsersModule,
   ],
   providers: [FacturaResolver, FacturaService],
   exports: [FacturaService],

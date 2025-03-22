@@ -101,6 +101,7 @@ export class AppInit implements OnModuleInit {
         nickname: email,
         password: password,
         role: ids_roles,
+        id_empleado: 0, //TODO por defecto tengo que crear primero el Empleado
       });
     }
   }

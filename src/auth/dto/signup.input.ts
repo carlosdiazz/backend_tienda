@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  Min,
   MinLength,
 } from 'class-validator';
 
@@ -42,4 +43,9 @@ export class SignupInput {
   @IsBoolean()
   @IsOptional()
   activo?: boolean;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(0)
+  id_empleado: number;
 }

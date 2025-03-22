@@ -3,12 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 //Propio
 import { VALID_ENTITY } from '../../../config';
+import { User } from './../../users/entities/user.entity';
 
 @Entity({ name: VALID_ENTITY.EMPLEADOS })
 @ObjectType()
@@ -44,6 +46,21 @@ export class Empresa {
   @Field(() => Date)
   @Column({ type: 'timestamptz' })
   fecha: Date;
+
+  @Column({ type: 'varchar', default: '' })
+  @Field(() => String)
+  documento: string;
+
+  @Column({ type: 'varchar', default: '' })
+  @Field(() => String)
+  tipo_documento: string;
+
+  @Field(() => User, { nullable: true })
+  @OneToOne(() => User, (user) => user.empleado, {
+    lazy: true,
+    nullable: true,
+  })
+  user?: User;
 
   @CreateDateColumn({
     name: 'create_at',

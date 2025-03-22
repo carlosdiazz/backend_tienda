@@ -16,19 +16,23 @@ import { MESSAGE } from '../../config';
 import { Role } from '../role';
 import { SignupInput } from '../../auth/dto/signup.input';
 import { PaginationArgs } from 'src/common';
+import { EmpresaService } from '../empleados';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Role) private readonly roleRepositoty: Repository<Role>,
+    private readonly empleadoService: EmpresaService,
     private readonly dataSource: DataSource,
   ) {}
 
   private logger: Logger = new Logger('UsersService');
 
   async create(signupInput: SignupInput): Promise<User> {
-    const { role, ...rest } = signupInput;
+    const { role, id_empleado, ...rest } = signupInput;
+
+    await this.empleadoService.findOne(id_empleado);
 
     try {
       const roles = await this.roleRepositoty.findBy({
@@ -40,6 +44,9 @@ export class UsersService {
 
       const newUser = this.userRepository.create({
         ...rest,
+        empleado: {
+          id: id_empleado,
+        },
         token: null,
         role: roles,
       });

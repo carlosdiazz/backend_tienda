@@ -44,6 +44,16 @@ export class CreateEmpresaInput {
   sueldo: number;
 
   @Field(() => String)
+  @IsNotEmpty()
+  @MinLength(3)
+  documento: string;
+
+  @Field(() => String)
+  @IsNotEmpty()
+  @MinLength(3)
+  tipo_documento: string;
+
+  @Field(() => String)
   @IsDateString()
   @Matches(/^\d{4}-\d{2}-\d{2}$/) // Expresion regular para recibir la fecha en AAAA:MM:DD  2022-10-19
   fecha: Date;

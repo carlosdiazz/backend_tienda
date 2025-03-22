@@ -11,23 +11,30 @@ import { Repository } from 'typeorm';
 import { CreateProductoInput } from './dto/create-producto.input';
 import { UpdateProductoInput } from './dto/update-producto.input';
 import { Producto } from './entities/producto.entity';
-import { PaginationArgs, ResponsePropioGQl } from '../../common';
+import { ResponsePropioGQl } from '../../common';
 import { MESSAGE } from '../../config';
 import { FilterProductosArg } from './dto/filter-producto.dto';
+import { ProveedorService } from '../proveedor';
 
 @Injectable()
 export class ProductosService {
   constructor(
     @InjectRepository(Producto)
     private readonly repository: Repository<Producto>,
+    private readonly proveedorService: ProveedorService,
   ) {}
 
   public async create(
     createProductoInput: CreateProductoInput,
   ): Promise<Producto> {
+    const { id_proveedor } = createProductoInput;
+    await this.proveedorService.findOne(id_proveedor);
     try {
       const new_entity = this.repository.create({
         ...createProductoInput,
+        proveedor: {
+          id: id_proveedor,
+        },
         stock: 0,
       });
       const entity = await this.repository.save(new_entity);

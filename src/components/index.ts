@@ -2,7 +2,7 @@ export * from './telegram';
 export * from './users';
 export * from './role';
 export * from './productos';
-export * from './empresa';
+export * from './empleados';
 export * from './proveedor';
 export * from './clientes';
 export * from './factura';

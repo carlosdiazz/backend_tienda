@@ -28,16 +28,12 @@ export class InventarioService {
   public async create(
     createInventarioInput: CreateInventarioInput,
   ): Promise<Inventario> {
-    const { id_producto, concepto, cantidad, id_proveedor, is_credito } =
+    const { id_producto, concepto, cantidad, is_credito } =
       createInventarioInput;
 
     await this.productoService.findOne(id_producto);
 
     await this.productoService.modificarStock(id_producto, cantidad, true);
-
-    if (id_proveedor) {
-      await this.proveedorService.findOne(id_proveedor);
-    }
 
     try {
       const new_entity = this.repository.create({
@@ -47,9 +43,6 @@ export class InventarioService {
         is_ingreso: true,
         producto: {
           id: id_producto,
-        },
-        proveedor: {
-          id: id_proveedor ?? null,
         },
       });
       const entity = await this.repository.save(new_entity);
@@ -106,7 +99,6 @@ export class InventarioService {
         where: {
           is_ingreso,
           is_credito,
-          proveedor: { id: id_proovedor },
         },
         order: {
           createAt: 'DESC',

@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  Min,
   MinLength,
 } from 'class-validator';
 @InputType()
@@ -39,4 +40,9 @@ export class CreateUserInput {
   @IsBoolean()
   @IsOptional()
   activo?: boolean;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(0)
+  id_empleado: number;
 }

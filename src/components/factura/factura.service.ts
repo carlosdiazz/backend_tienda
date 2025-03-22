@@ -23,6 +23,7 @@ import {
   FacturaDetalleService,
 } from '../factura_detalle';
 import { FilterFacturasArg } from './dto/filter-factura.dto';
+import { UsersService } from '../users';
 
 @Injectable()
 export class FacturaService {
@@ -32,6 +33,7 @@ export class FacturaService {
     private readonly clienteService: ClientesService,
     private readonly productosService: ProductosService,
     private readonly facturaDetalle: FacturaDetalleService,
+    private readonly userService: UsersService,
   ) {}
 
   private generarCodigofactura(): number {
@@ -132,10 +134,13 @@ export class FacturaService {
       productos,
       metodo_pago,
       referencia_pago,
+      id_user,
     } = createFacturaInput;
 
     //Verificar Clientes
     const cliente = await this.clienteService.findOne(id_cliente);
+
+    await this.userService.findOneById(id_user);
 
     if (cliente.id === 5 && is_credito === true) {
       throw new UnprocessableEntityException(
@@ -181,6 +186,9 @@ export class FacturaService {
         referencia_pago,
         cliente: {
           id: id_cliente,
+        },
+        user: {
+          id: id_user,
         },
       });
       const entity = await this.repository.save(new_entity);

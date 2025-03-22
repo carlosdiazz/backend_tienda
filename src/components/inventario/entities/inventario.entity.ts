@@ -36,13 +36,9 @@ export class Inventario {
   @Field(() => Boolean)
   is_credito: boolean;
 
-  @Field(() => Proveedor, { nullable: true })
-  @ManyToOne(() => Proveedor, (proveedor) => proveedor.inventario, {
-    eager: true,
-    nullable: true,
-  })
-  @JoinColumn({ name: 'id_proveedor' })
-  proveedor?: Proveedor;
+  @Column({ type: 'int', default: 0 })
+  @Field(() => Int)
+  total_a_pagar: number;
 
   @CreateDateColumn({
     name: 'create_at',

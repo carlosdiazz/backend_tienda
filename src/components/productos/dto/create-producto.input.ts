@@ -21,11 +21,6 @@ export class CreateProductoInput {
   @MinLength(3)
   descripcion: string;
 
-  //@Field(() => String, { nullable: true })
-  //@IsOptional()
-  //@IsString()
-  //img_url?: string;
-
   @Field(() => Boolean)
   @IsBoolean()
   @IsOptional()
@@ -40,6 +35,16 @@ export class CreateProductoInput {
   @IsNumber()
   @Min(0)
   price: number;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(0)
+  price_de_compra: number;
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(0)
+  id_proveedor: number;
 
   @Field(() => Int)
   @IsNumber()

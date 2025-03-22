@@ -10,6 +10,7 @@ import {
 
 import { VALID_ENTITY } from '../../../config';
 import { Inventario } from 'src/components/inventario/entities/inventario.entity';
+import { Producto } from 'src/components/productos/entities/producto.entity';
 
 @Entity({ name: VALID_ENTITY.PROVEEDOR })
 @ObjectType()
@@ -38,11 +39,9 @@ export class Proveedor {
   @Field(() => Boolean)
   activo: boolean;
 
-  @OneToMany(() => Inventario, (inventario) => inventario.proveedor, {
-    nullable: true,
-  })
-  @Field(() => [Inventario], { nullable: true })
-  inventario: Inventario[];
+  @OneToMany(() => Producto, (producto) => producto.proveedor, { eager: true })
+  @Field(() => [Inventario])
+  producto: Producto[];
 
   @CreateDateColumn({
     name: 'create_at',

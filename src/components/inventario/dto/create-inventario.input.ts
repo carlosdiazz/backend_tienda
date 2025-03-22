@@ -28,7 +28,7 @@ export class CreateInventarioInput {
   @Field(() => Int)
   @IsNumber()
   @Min(0)
-  id_proveedor?: number;
+  total_a_pagar: number;
 
   @Field(() => Boolean)
   @IsBoolean()

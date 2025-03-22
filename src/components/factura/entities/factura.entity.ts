@@ -14,6 +14,7 @@ import { VALID_ENTITY } from '../../../config';
 import { Cliente } from '../../../components/clientes/entities/cliente.entity';
 import { FacturaDetalle } from '../../../components/factura_detalle/entities/factura_detalle.entity';
 import { Comprobante } from '../../../components/comprobante/entities/comprobante.entity';
+import { User } from 'src/components/users/entities/user.entity';
 
 @Entity({ name: VALID_ENTITY.FACTURA })
 @ObjectType()
@@ -59,6 +60,12 @@ export class Factura {
   metodo_pago: string;
 
   //Realciones
+
+  @Field(() => User)
+  @ManyToOne(() => User, (use) => use.factura, { eager: true })
+  @JoinColumn({ name: 'id_user' })
+  user: User;
+
   @Field(() => Cliente, { nullable: true })
   @ManyToOne(() => Cliente, (cliente) => cliente.facturas, {
     lazy: true,

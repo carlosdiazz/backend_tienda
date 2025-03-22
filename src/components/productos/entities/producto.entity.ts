@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -12,6 +14,7 @@ import {
 import { VALID_ENTITY } from '../../../config';
 import { FacturaDetalle } from '../../../components/factura_detalle/entities/factura_detalle.entity';
 import { Inventario } from '../../../components/inventario/entities/inventario.entity';
+import { Proveedor } from 'src/components/proveedor/entities/proveedor.entity';
 
 @Entity({ name: VALID_ENTITY.PRODUCTO })
 @ObjectType()
@@ -46,6 +49,10 @@ export class Producto {
 
   @Column({ type: 'int' })
   @Field(() => Int)
+  price_de_compra: number;
+
+  @Column({ type: 'int' })
+  @Field(() => Int)
   stock: number;
 
   //Se usara para la alertas
@@ -53,9 +60,13 @@ export class Producto {
   @Field(() => Int)
   stock_minimo: number;
 
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', default: false })
   @Field(() => Boolean)
   is_service: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  @Field(() => Boolean)
+  is_stock_minimo: boolean;
 
   @CreateDateColumn({
     name: 'create_at',
@@ -84,4 +95,12 @@ export class Producto {
     lazy: true,
   })
   inventario: Inventario[];
+
+  //Relaciones
+  @Field(() => Proveedor)
+  @ManyToOne(() => Proveedor, (provee) => provee.producto, {
+    lazy: true,
+  })
+  @JoinColumn({ name: 'id_producto' })
+  proveedor: Proveedor;
 }
