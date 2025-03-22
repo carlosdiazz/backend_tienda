@@ -35,12 +35,16 @@ export class InventarioService {
 
     await this.productoService.modificarStock(id_producto, cantidad, true);
 
+    const product = await this.productoService.findOne(id_producto);
+    const new_total_a_pagar = product.price_de_compra * cantidad;
+
     try {
       const new_entity = this.repository.create({
         concepto,
         cantidad,
         is_credito,
         is_ingreso: true,
+        total_a_pagar: new_total_a_pagar,
         producto: {
           id: id_producto,
         },
@@ -58,12 +62,16 @@ export class InventarioService {
     const { id_producto, cantidad, concepto, is_credito } =
       createInventarioInput;
     await this.productoService.modificarStock(id_producto, cantidad, false);
+    //const product = await this.productoService.findOne(id_producto);
+    //const new_total_a_pagar = product.price_de_compra * cantidad;
+
     try {
       const new_entity = this.repository.create({
         concepto,
         cantidad,
         is_credito,
         is_ingreso: false,
+        //total_a_pagar: new_total_a_pagar,
         producto: {
           id: id_producto,
         },

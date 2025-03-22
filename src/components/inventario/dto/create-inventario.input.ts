@@ -25,10 +25,10 @@ export class CreateInventarioInput {
   @Min(0)
   id_producto: number;
 
-  @Field(() => Int)
-  @IsNumber()
-  @Min(0)
-  total_a_pagar: number;
+  //@Field(() => Int)
+  //@IsNumber()
+  //@Min(0)
+  //total_a_pagar: number;
 
   @Field(() => Boolean)
   @IsBoolean()

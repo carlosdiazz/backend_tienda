@@ -36,7 +36,7 @@ export class FacturaDetalleService {
         cantidad,
         concepto: 'EGRESO POR FACTURA',
         is_credito: false,
-        total_a_pagar: 0,
+        //total_a_pagar: 0,
       });
 
       const new_entity = this.repository.create({
