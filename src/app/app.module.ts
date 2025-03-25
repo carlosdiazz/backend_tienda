@@ -47,7 +47,7 @@ const baseImports = [
 
   GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
-    autoSchemaFile: join(process.cwd(), './../schema.gql'),
+    autoSchemaFile: join(process.cwd(), 'src/app/schema.gql'),
     playground: false, // Deshabilita la consola de GraphQL Playground en producción
     plugins: [apolloPlugin()], // Utiliza el plugin de landing page de Apollo para producción
     context: ({ req }) => ({ req }), // Configura el contexto con la solicitud HTTP

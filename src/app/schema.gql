@@ -1,0 +1,387 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ResponsePropioGQl {
+  message: String!
+  error: Boolean!
+}
+
+"""Entidad de los permisos con las acciones"""
+type Permiso_Accion {
+  id: Int!
+  action: String!
+  role: [Role!]!
+}
+
+"""Entidad de Roles"""
+type Role {
+  id: Int!
+  name: String!
+  descripcion: String!
+  activo: Boolean!
+  user: [User!]!
+  permiso_accion: [Permiso_Accion!]!
+}
+
+type Empresa {
+  id: Int!
+  name: String!
+  descripcion: String!
+  activo: Boolean!
+  codigo: Int!
+  cedula: String!
+  sueldo: Int!
+  fecha: DateTime!
+  user: User
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Cliente {
+  id: Int!
+  name: String!
+  activo: Boolean!
+  is_generico: Boolean!
+  documento: String!
+  tipo_documento: String!
+  telefono: String!
+  facturas: [Factura!]
+}
+
+type Inventario {
+  id: Int!
+  cantidad: Int!
+  concepto: String!
+  is_ingreso: Boolean!
+  is_credito: Boolean!
+  total_a_pagar: Int!
+  producto: Producto!
+}
+
+type Proveedor {
+  id: Int!
+  name: String!
+  descripcion: String!
+  direccion: String!
+  telefono: String!
+  activo: Boolean!
+  producto: [Inventario!]!
+}
+
+type Producto {
+  id: Int!
+  name: String!
+  descripcion: String!
+  activo: Boolean!
+  codigo: Int!
+  price: Int!
+  price_de_compra: Int!
+  stock: Int!
+  stock_minimo: Int!
+  is_service: Boolean!
+  is_stock_minimo: Boolean!
+  factura_detalle: [FacturaDetalle!]!
+  inventario: [Inventario!]!
+  proveedor: Proveedor!
+}
+
+type FacturaDetalle {
+  id: Int!
+  cantidad: Int!
+  precio: Int!
+  total: Int!
+  producto: Producto!
+  factura: Factura!
+}
+
+type Comprobante {
+  id: Int!
+  monto_pagado: Int!
+  concepto: String!
+  referencia_pago: String!
+  metodo_pago: String!
+  factura: Factura!
+}
+
+type Factura {
+  id: Int!
+  activo: Boolean!
+  is_credito: Boolean!
+  codigo_factura: Int!
+  total_pagado: Int!
+  total: Int!
+  faltante: Int!
+  is_paid: Boolean!
+  referencia_pago: String!
+  metodo_pago: String!
+  user: User!
+  cliente: Cliente
+  factura_detalle: [FacturaDetalle!]!
+  comprobante: [Comprobante!]!
+}
+
+type User {
+  id: Int!
+  nickname: String!
+  email: String!
+  activo: Boolean!
+  role: [Role!]!
+  empleado: Empresa
+  factura: [Factura!]!
+}
+
+type AuthResponse {
+  token: String
+  user: User!
+}
+
+type Query {
+  allProductos(offset: Int = 0, limit: Int = 10, activo: Boolean = true, is_service: Boolean, id_proveedor: Int, is_stock_minimo: Boolean): [Producto!]!
+  findProducto(id: Int!): Producto!
+  allProveedor(offset: Int = 0, limit: Int = 10, activo: Boolean = true): [Proveedor!]!
+  findProveedor(id: Int!): Proveedor!
+  revaliteToken: AuthResponse!
+
+  """Devolver todos los usuarios"""
+  allUser(offset: Int = 0, limit: Int = 10, activo: Boolean = true): [User!]!
+
+  """Devolver todos los usuarios"""
+  findUser(id: ID!): User!
+
+  """Ver todos los roles"""
+  allRole(offset: Int = 0, limit: Int = 10, activo: Boolean = true): [Role!]!
+
+  """Ver todos los Permisos Accion"""
+  allPermisoAccion: [Permiso_Accion!]!
+
+  """Ver un rol especifico"""
+  findRole(id: Int!): Role!
+  allEmpresa(offset: Int = 0, limit: Int = 10, activo: Boolean = true): [Empresa!]!
+  findEmpresa(id: Int!): Empresa!
+  allCliente(offset: Int = 0, limit: Int = 10, activo: Boolean = true): [Cliente!]!
+  findCliente(id: Int!): Cliente!
+  allFactura(offset: Int = 0, limit: Int = 10, activo: Boolean = true, is_paid: Boolean, id_cliente: Int, id_user: Int): [Factura!]!
+  findFactura(id: Int!): Factura!
+  allInventarios(offset: Int = 0, limit: Int = 10, activo: Boolean = true, is_ingreso: Boolean, id_proovedor: Int, is_credito: Boolean): [Inventario!]!
+  allComprobante(offset: Int = 0, limit: Int = 10, activo: Boolean = true, id_cliente: Int): [Comprobante!]!
+  findComprobante(id: Int!): Comprobante!
+}
+
+type Mutation {
+  createProducto(createProductoInput: CreateProductoInput!): Producto!
+  updateProducto(updateProductoInput: UpdateProductoInput!): Producto!
+  removeProducto(id: Int!): ResponsePropioGQl!
+  createProveedor(createProveedorInput: CreateProveedorInput!): Proveedor!
+  updateProveedor(updateProveedorInput: UpdateProveedorInput!): Proveedor!
+  removeProveedor(id: Int!): ResponsePropioGQl!
+
+  """Para registrar un usuario"""
+  signup(signupInput: SignupInput!): AuthResponse!
+
+  """Para loguear el usuario"""
+  login(loginInput: LoginInput!): AuthResponse!
+
+  """Con este query actualiza el usuario"""
+  updateUser(updateUserInput: UpdateUserInput!): User!
+
+  """Para crear un Rol"""
+  createRol(createRoleInput: CreateRoleInput!): Role!
+
+  """Actualizar un Rol"""
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+
+  """Eliminar un Rol"""
+  removeRole(id: Int!): ResponsePropioGQl!
+  createEmpresa(createEmpresaInput: CreateEmpresaInput!): Empresa!
+  updateEmpresa(updateEmpresaInput: UpdateEmpresaInput!): Empresa!
+  removeEmpresa(id: Int!): ResponsePropioGQl!
+  createCliente(createClienteInput: CreateClienteInput!): Cliente!
+  updateCliente(updateClienteInput: UpdateClienteInput!): Cliente!
+  removeCliente(id: Int!): ResponsePropioGQl!
+  createFactura(createFacturaInput: CreateFacturaInput!): Factura!
+  updateFactura(updateFacturaInput: UpdateFacturaInput!): Factura!
+  removeFactura(id: Int!): ResponsePropioGQl!
+  createInventario(createInventarioInput: CreateInventarioInput!): Inventario!
+  changeStatusInventario(id: Int!): Inventario!
+  createComprobante(createComprobanteInput: CreateComprobanteInput!): Comprobante!
+  updateComprobante(updateComprobanteInput: UpdateComprobanteInput!): Comprobante!
+  removeComprobante(id: Int!): ResponsePropioGQl!
+}
+
+input CreateProductoInput {
+  name: String!
+  descripcion: String!
+  activo: Boolean!
+  codigo: Int!
+  price: Int!
+  price_de_compra: Int!
+  id_proveedor: Int!
+  stock_minimo: Int!
+  is_service: Boolean!
+  is_stock_minimo: Boolean!
+}
+
+input UpdateProductoInput {
+  name: String
+  descripcion: String
+  activo: Boolean
+  codigo: Int
+  price: Int
+  price_de_compra: Int
+  id_proveedor: Int
+  stock_minimo: Int
+  is_service: Boolean
+  is_stock_minimo: Boolean
+  id: Int!
+}
+
+input CreateProveedorInput {
+  name: String!
+  descripcion: String!
+  telefono: String!
+  direccion: String!
+  activo: Boolean!
+}
+
+input UpdateProveedorInput {
+  name: String
+  descripcion: String
+  telefono: String
+  direccion: String
+  activo: Boolean
+  id: Int!
+}
+
+input SignupInput {
+  email: String!
+  password: String
+  role: [Int!]!
+  nickname: String!
+  activo: Boolean
+  id_empleado: Int!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  role: [Int!]
+  nickname: String
+  activo: Boolean
+  id_empleado: Int
+  id: Int!
+}
+
+input CreateRoleInput {
+  descripcion: String!
+  name: String!
+  permiso_accion: [Int!]!
+  activo: Boolean
+}
+
+input UpdateRoleInput {
+  descripcion: String
+  name: String
+  permiso_accion: [Int!]
+  activo: Boolean
+  id: Int!
+}
+
+input CreateEmpresaInput {
+  name: String!
+  descripcion: String!
+  activo: Boolean!
+  codigo: Int!
+  cedula: String!
+  sueldo: Int!
+  fecha: String!
+}
+
+input UpdateEmpresaInput {
+  name: String
+  descripcion: String
+  activo: Boolean
+  codigo: Int
+  cedula: String
+  sueldo: Int
+  fecha: String
+  id: Int!
+}
+
+input CreateClienteInput {
+  name: String!
+  activo: Boolean!
+  is_generico: Boolean
+  documento: String!
+  tipo_documento: String!
+  telefono: String!
+}
+
+input UpdateClienteInput {
+  name: String
+  activo: Boolean
+  is_generico: Boolean
+  documento: String
+  tipo_documento: String
+  telefono: String
+  id: Int!
+}
+
+input CreateFacturaInput {
+  id_cliente: Int!
+  activo: Boolean!
+  is_credito: Boolean!
+  total_pagado: Int!
+  referencia_pago: String!
+  metodo_pago: String!
+  productos: [ProductoCantidadInput!]!
+}
+
+input ProductoCantidadInput {
+  id_producto: Int!
+  cantidad: Int!
+}
+
+input UpdateFacturaInput {
+  id_cliente: Int
+  activo: Boolean
+  is_credito: Boolean
+  total_pagado: Int
+  referencia_pago: String
+  metodo_pago: String
+  productos: [ProductoCantidadInput!]
+  id: Int!
+  faltante: Int
+}
+
+input CreateInventarioInput {
+  concepto: String!
+  cantidad: Int!
+  id_producto: Int!
+  is_credito: Boolean!
+}
+
+input CreateComprobanteInput {
+  id_factura: Int!
+  monto_pagado: Int!
+  concepto: String!
+  referencia_pago: String!
+  metodo_pago: String!
+}
+
+input UpdateComprobanteInput {
+  id_factura: Int
+  monto_pagado: Int
+  concepto: String
+  referencia_pago: String
+  metodo_pago: String
+  id: Int!
+}
