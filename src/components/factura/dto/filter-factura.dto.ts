@@ -14,4 +14,10 @@ export class FilterFacturasArg extends PaginationArgs {
   @IsNumber()
   @Min(1)
   public id_cliente?: number;
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  public id_user?: number;
 }

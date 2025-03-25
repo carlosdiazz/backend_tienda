@@ -45,12 +45,21 @@ export class ProductosService {
   }
 
   public async findAll(pagination: FilterProductosArg): Promise<Producto[]> {
-    const { limit: take, offset: skip, activo, is_service } = pagination;
+    const {
+      limit: take,
+      offset: skip,
+      activo,
+      is_service,
+      id_proveedor,
+    } = pagination;
     try {
       return await this.repository.find({
         where: {
           activo,
           is_service,
+          proveedor: {
+            id: id_proveedor,
+          },
         },
         order: {
           codigo: 'ASC',

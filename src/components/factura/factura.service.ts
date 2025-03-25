@@ -81,7 +81,7 @@ export class FacturaService {
       const total_producto = price * product.cantidad;
       total = total + total_producto;
     }
-    return total;
+    return Math.floor(total * 1.18);
   }
 
   private async revisarProductos(productos: ProductoCantidadInput[]) {
@@ -204,6 +204,7 @@ export class FacturaService {
       activo,
       is_paid,
       id_cliente,
+      id_user,
     } = pagination;
     try {
       return await this.repository.find({
@@ -211,6 +212,7 @@ export class FacturaService {
           activo,
           is_paid,
           cliente: { id: id_cliente },
+          user: { id: id_user },
         },
         take,
         skip,

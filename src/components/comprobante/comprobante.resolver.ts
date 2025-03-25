@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../../auth';
 import { User } from '../users';
 import { PaginationArgs, ResponsePropioGQl } from '../../common';
+import { AllComprobante } from './dto/all-comporbante.dto';
 
 @UseGuards(JwtAuthGuard)
 @Resolver(() => Comprobante)
@@ -27,9 +28,9 @@ export class ComprobanteResolver {
   @Query(() => [Comprobante], { name: 'allComprobante' })
   public async findAll(
     @CurrentUser([]) user: User,
-    @Args() paginationArgs: PaginationArgs,
+    @Args() allComprobante: AllComprobante,
   ): Promise<Comprobante[]> {
-    return this.service.findAll(paginationArgs);
+    return this.service.findAll(allComprobante);
   }
 
   @Query(() => Comprobante, { name: 'findComprobante' })

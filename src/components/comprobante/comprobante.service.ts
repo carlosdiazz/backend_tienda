@@ -10,9 +10,10 @@ import { Repository } from 'typeorm';
 import { CreateComprobanteInput } from './dto/create-comprobante.input';
 import { UpdateComprobanteInput } from './dto/update-comprobante.input';
 import { Comprobante } from './entities/comprobante.entity';
-import { PaginationArgs, ResponsePropioGQl } from '../../common';
+import { ResponsePropioGQl } from '../../common';
 import { MESSAGE } from '../../config';
 import { FacturaService } from '../factura';
+import { AllComprobante } from './dto/all-comporbante.dto';
 
 @Injectable()
 export class ComprobanteService {
@@ -69,10 +70,17 @@ export class ComprobanteService {
     }
   }
 
-  public async findAll(pagination: PaginationArgs): Promise<Comprobante[]> {
-    const { limit: take, offset: skip, activo } = pagination;
+  public async findAll(pagination: AllComprobante): Promise<Comprobante[]> {
+    const { limit: take, offset: skip, activo, id_cliente } = pagination;
     try {
       return await this.repository.find({
+        where: {
+          factura: {
+            cliente: {
+              id: id_cliente,
+            },
+          },
+        },
         take,
         skip,
         order: {

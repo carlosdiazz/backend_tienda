@@ -30,11 +30,11 @@ export class Cliente {
   @Field(() => Boolean)
   is_generico: boolean;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: '' })
   @Field(() => String)
   documento: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: '' })
   @Field(() => String)
   tipo_documento: string;
 
