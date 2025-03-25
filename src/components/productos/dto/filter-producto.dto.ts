@@ -14,4 +14,9 @@ export class FilterProductosArg extends PaginationArgs {
   @IsNumber()
   @Min(1)
   public id_proveedor?: number;
+
+  @Field(() => Boolean, { nullable: true })
+  @IsOptional()
+  @IsBoolean()
+  public is_stock_minimo?: boolean;
 }

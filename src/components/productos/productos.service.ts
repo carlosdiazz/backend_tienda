@@ -51,12 +51,14 @@ export class ProductosService {
       activo,
       is_service,
       id_proveedor,
+      is_stock_minimo,
     } = pagination;
     try {
       return await this.repository.find({
         where: {
           activo,
           is_service,
+          is_stock_minimo,
           proveedor: {
             id: id_proveedor,
           },
@@ -127,5 +129,14 @@ export class ProductosService {
 
     this.repository.merge(product, { stock: new_stock });
     await this.repository.save(product);
+  }
+
+  async check_stock(id: number) {
+    const producto = await this.findOne(id);
+    if (producto.stock >= producto.stock_minimo) {
+      await this.update(id, { is_stock_minimo: false, id });
+    } else {
+      await this.update(id, { is_stock_minimo: true, id });
+    }
   }
 }

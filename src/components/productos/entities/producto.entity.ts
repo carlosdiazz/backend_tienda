@@ -64,7 +64,7 @@ export class Producto {
   @Field(() => Boolean)
   is_service: boolean;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: true })
   @Field(() => Boolean)
   is_stock_minimo: boolean;
 

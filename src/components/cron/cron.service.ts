@@ -21,6 +21,16 @@ export class CronService {
     }
   }
 
+  @Cron('* * * * *')
+  private async verificar_stock_minimo() {
+    try {
+      //this.logger.verbose('Verificando Stock Minimo');
+      await this.revisar_stock_minimo();
+    } catch (e) {
+      this.logger.error(`Error Revisando Stock ${e}`);
+    }
+  }
+
   private async revisar_stock() {
     const products = await this.productosService.findAll({
       activo: true,
@@ -35,11 +45,27 @@ export class CronService {
         if (product.stock < product.stock_minimo) {
           message =
             message +
-            ` --- EL producto ${product.name} --- Esta por debajo del Stock Minimo, actualmente tiene ${product.stock}\n\n`;
+            `----- EL producto ${product.name}, esta por debajo del Stock Minimo, actualmente tiene ${product.stock}-----`;
         }
       }
     }
     if (message === '') return;
     await this.telegramService.sendMessages(message);
+  }
+
+  private async revisar_stock_minimo() {
+    const products = await this.productosService.findAll({
+      activo: true,
+      limit: 9999,
+      offset: 0,
+      //is_service:false
+    });
+    for (const product of products) {
+      if (product.is_service) {
+        continue;
+      } else {
+        await this.productosService.check_stock(product.id);
+      }
+    }
   }
 }

@@ -22,7 +22,7 @@ export class TelegramService {
   public async sendMessages(body: string) {
     const { TELEFONO_TELEGRAM } = envs;
     for (const telefono of TELEFONO_TELEGRAM) {
-      const newMessage = `\n\nPOCO STOCK\n\n${body}`;
+      const newMessage = `________POCO STOCK_______${body}`;
       await this.sendMessage(telefono, newMessage);
     }
   }
