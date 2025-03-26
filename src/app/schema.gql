@@ -222,7 +222,7 @@ input CreateProductoInput {
   id_proveedor: Int!
   stock_minimo: Int!
   is_service: Boolean!
-  is_stock_minimo: Boolean!
+  is_stock_minimo: Boolean
 }
 
 input UpdateProductoInput {

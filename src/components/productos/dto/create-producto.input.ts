@@ -56,7 +56,7 @@ export class CreateProductoInput {
   @IsOptional()
   is_service: boolean;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   @IsBoolean()
   @IsOptional()
   public is_stock_minimo?: boolean;
